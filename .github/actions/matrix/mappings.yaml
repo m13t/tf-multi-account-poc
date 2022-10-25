@@ -1,0 +1,16 @@
+- partner: vaquita
+  environment: qa
+  account: nonprod
+  role: VquitaNonprodAdmin
+- partner: vaquita
+  environment: live
+  account: prod
+  role: VaquitaProdAdmin
+- partner: wiztec
+  environment: qa
+  account: nonprod
+  role: WiztecNonprodAdmin
+- partner: wiztec
+  environment: live
+  account: prod
+  role: WiztecProdAdmin

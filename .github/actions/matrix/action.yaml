@@ -1,0 +1,36 @@
+name: Matrix Generator
+description: Generates a matrix for well defined accounts and environments
+
+outputs:
+  partner:
+    description: Partner identifier
+    value: ${{ steps.generate.outputs.partner }}
+  environment:
+    description: Environment identifier
+    value: ${{ steps.generate.outputs.environment }}
+  account:
+    description: Account identifier
+    value: ${{ steps.generate.outputs.account }}
+  role:
+    description: Role identifier
+    value: ${{ steps.generate.outputs.role }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: extract
+      name: Extract branch details
+      shell: bash
+      run: |
+        echo "partner=$(echo $GITHUB_REF_NAME | sed -r 's/^site\/([a-z]+)\/([a-z]+)$/\1/')" >> $GITHUB_OUTPUT
+        echo "environment=$(echo $GITHUB_REF_NAME | sed -r 's/^site\/([a-z]+)\/([a-z]+)$/\2/')" >> $GITHUB_OUTPUT
+
+    - id: generate
+      name: Generate matrix
+      shell: bash
+      run: |
+        partner=${{ steps.extract.outputs.partner }}
+        environment=${{ steps.extract.outputs.environment }}
+        mapping=${{ github.action_path }}/mappings.yaml
+        outputs=$(yq eval -r '.[] | select(.partner == "'$partner'" and .environment == "'$environment'").[] | key + "="+ .' $mapping)
+        echo "$outputs" >> $GITHUB_OUTPUT
