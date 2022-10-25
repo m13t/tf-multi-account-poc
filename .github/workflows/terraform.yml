@@ -30,7 +30,6 @@ jobs:
     environment: ${{ needs.generate.outputs.partner }}/${{ needs.generate.outputs.environment }}
     runs-on: ubuntu-latest
     env:
-      AWS_ROLE: ${{ needs.generate.outputs.role }}
       TF_WORKSPACE: ${{ needs.generate.outputs.environment }}
     steps:
       - name: Debug
