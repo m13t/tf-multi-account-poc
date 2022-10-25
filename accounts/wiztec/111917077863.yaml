@@ -1,11 +1,11 @@
 account:
   name: prod
-  domain: prod.vaquita.com
+  domain: prod.wiz.tech
 
   cidr_blocks:
-    - 10.1.0.0/16
+    - 10.3.0.0/16
 
 environments:
   live:
     cidr_blocks:
-      - 10.1.1.0/24
+      - 10.3.1.0/24

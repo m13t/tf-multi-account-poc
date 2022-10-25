@@ -1,0 +1,66 @@
+name: Terraform Plan All
+
+on:
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  generate:
+    name: Generate
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: matrix
+        name: Matrix
+        uses: ./.github/actions/matrix
+
+  plan:
+    name: 'Plan ${{ matrix.partner }}@${{ matrix.environment }}'
+    needs: generate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.generate.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: settings
+        name: Get settings
+        uses: ./.github/actions/matrix
+        with:
+          partner: ${{ matrix.partner }}
+          environment: ${{ matrix.environment }}
+      - name: Debug
+        run: |
+          echo "Partner: ${{ steps.settings.outputs.partner }}"
+          echo "Account: ${{ steps.settings.outputs.account }}"
+          echo "Environment: ${{ steps.settings.outputs.environment }}"
+          echo "Role: ${{ steps.settings.outputs.role }}"
+      - name: Assume IAM Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: eu-west-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ steps.settings.outputs.role }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.2
+        with:
+          terraform_wrapper: false
+      - name: Terraform Init
+        run: terraform init
+        env:
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        env:
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
