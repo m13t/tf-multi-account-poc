@@ -7,7 +7,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   // Inject account tags
-  tags = merge(module.account.tag, {
+  tags = merge(module.account.tags, {
     // Format name tag using account format
     Name = format(module.account.tag_name.format, "VPC")
   })
