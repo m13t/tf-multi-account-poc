@@ -1,10 +1,10 @@
 - partner: vaquita
   environment: qa
   account: nonprod
-  role: VquitaNonprodAdmin
+  role: arn:aws:iam::329171477349:role/DemoAdmin
 - partner: vaquita
   environment: live
-  account: prod
+  account: arn:aws:iam::067224917197:role/DemoAdmin
   role: VaquitaProdAdmin
 - partner: wiztec
   environment: qa
