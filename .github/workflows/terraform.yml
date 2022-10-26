@@ -40,10 +40,14 @@ jobs:
           echo "Role: ${{ needs.generate.outputs.role }}"
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Configure plugin cache
+        run: |
+          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' > ~/.terraformrc
+          mkdir --p ~/.terraform.d/plugin-cache
       - name: Cache providers
         uses: actions/cache@v3
         with:
-          path: .terraform/providers
+          path: ~/.terraform.d/plugin-cache
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
