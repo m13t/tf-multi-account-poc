@@ -40,13 +40,13 @@ jobs:
           echo "Role: ${{ needs.generate.outputs.role }}"
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache modules
+      - name: Cache providers
         uses: actions/cache@v3
         with:
-          path: .terraform/modules
-          key: modules-${{ hashFiles('.terraform/modules/modules.json') }}
+          path: .terraform/providers
+          key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
-            modules-
+            ${{ runner.os }}-terraform-
       - name: Assume IAM Role
         uses: aws-actions/configure-aws-credentials@v1
         with:
