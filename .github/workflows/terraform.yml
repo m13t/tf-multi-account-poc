@@ -20,9 +20,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - id: extract
+        name: Extract branch details
+        shell: bash
+        run: |
+          echo "partner=$(echo $GITHUB_REF_NAME | sed -r 's/^site\/([a-z]+)\/([a-z]+)$/\1/')" >> $GITHUB_OUTPUT
+          echo "environment=$(echo $GITHUB_REF_NAME | sed -r 's/^site\/([a-z]+)\/([a-z]+)$/\2/')" >> $GITHUB_OUTPUT
       - id: matrix
         name: Matrix
         uses: ./.github/actions/matrix
+        with:
+          partner: ${{ steps.extract.outputs.partner }}
+          environment: ${{ steps.extract.outputs.environment }}
 
   terraform:
     name: Terraform
