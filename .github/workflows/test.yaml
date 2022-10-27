@@ -75,8 +75,8 @@ jobs:
       - name: Terraform Init
         run: terraform init
         env:
-          TF_WORKSPACE: ${{ needs.generate.outputs.environment }}
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
       - name: Terraform Plan
         run: terraform plan -input=false
         env:
-          TF_WORKSPACE: ${{ needs.generate.outputs.environment }}
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
