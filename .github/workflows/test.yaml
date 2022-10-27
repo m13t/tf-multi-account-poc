@@ -1,10 +1,6 @@
 name: Testing
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
     branches:
       - main
 
@@ -13,19 +9,6 @@ defaults:
     shell: bash
 
 jobs:
-  validate:
-    name: Validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.2
-        with:
-          terraform_wrapper: false
-      - name: Terraform Format
-        run: terraform fmt -check -diff
-
   generate:
     name: Generate
     runs-on: ubuntu-latest
