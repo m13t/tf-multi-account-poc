@@ -1,0 +1,11 @@
+account:
+  name: nonprod
+  domain: nonprod.wiz.tech
+
+  cidr_blocks:
+    - 10.2.0.0/16
+
+environments:
+  qa:
+    cidr_blocks:
+      - 10.2.1.0/24
