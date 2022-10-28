@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/matrix
 
   plan:
-    name: 'Plan ${{ matrix.partner }}@${{ matrix.environment }}'
+    name: '${{ matrix.partner }} / ${{ matrix.environment }}'
     needs: generate
     strategy:
       fail-fast: false
