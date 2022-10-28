@@ -17,7 +17,7 @@ on:
 
 jobs:
   plan:
-    name: '${{ inputs.partner }} / ${{ inputs.environment }}'
+    name: '${{ inputs.environment }}'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
