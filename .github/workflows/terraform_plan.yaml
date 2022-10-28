@@ -18,7 +18,6 @@ on:
 jobs:
   plan:
     name: 'Plan ${{ inputs.partner }}@${{ inputs.environment }}'
-    needs: generate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
