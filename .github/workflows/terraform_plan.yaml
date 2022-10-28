@@ -1,0 +1,56 @@
+name: Terraform Plan
+
+on:
+  workflow_call:
+    inputs:
+      partner:
+        type: string
+        required: true
+      environment:
+        type: string
+        required: true
+    secrets:
+      aws-access-key-id:
+        required: false
+      aws-secret-access-key:
+        required: false
+
+jobs:
+  plan:
+    name: 'Plan ${{ inputs.partner }}@${{ inputs.environment }}'
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: settings
+        name: Get partner settings
+        uses: ./.github/actions/matrix
+        with:
+          partner: ${{ inputs.partner }}
+          environment: ${{ inputs.environment }}
+      - name: Debug
+        run: |
+          echo "Partner: ${{ steps.settings.outputs.partner }}"
+          echo "Account: ${{ steps.settings.outputs.account }}"
+          echo "Environment: ${{ steps.settings.outputs.environment }}"
+          echo "Role: ${{ steps.settings.outputs.role }}"
+      - name: Assume IAM Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: eu-west-2
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          role-to-assume: ${{ steps.settings.outputs.role }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.2
+        with:
+          terraform_wrapper: false
+      - name: Terraform Init
+        run: terraform init
+        env:
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        env:
+          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
