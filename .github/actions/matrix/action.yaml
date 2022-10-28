@@ -37,7 +37,7 @@ runs:
         outputs=$(yq eval -o=json -I=0 '.[] |= pick(["partner", "environment"])' $mapping)
         echo "matrix=$outputs" >> $GITHUB_OUTPUT
 
-    - if: ${{ inputs.partner == '' || inputs.environment == '' }}
+    - if: ${{ inputs.partner != '' && inputs.environment != '' }}
       id: single
       name: Generate single
       shell: bash
