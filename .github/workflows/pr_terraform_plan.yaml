@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/matrix
 
   plan:
-    name: Plan
+    name: 'Partner ${{ steps.settings.outputs.partner }}@${{ steps.settings.outputs.account }}'
     needs: generate
     runs-on: ubuntu-latest
     strategy:
