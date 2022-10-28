@@ -61,7 +61,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-terraform-
       - name: Assume IAM Role
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: eu-west-2
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
