@@ -1,4 +1,4 @@
-name: Testing
+name: Terraform Plan All
 
 on:
   pull_request:
