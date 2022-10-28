@@ -1,4 +1,5 @@
 name: Terraform Plan All
+run-name: 'PR Plan All: ${{ github.pull_request.title }}'
 
 on:
   pull_request:
