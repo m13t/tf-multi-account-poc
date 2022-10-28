@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/matrix
 
   plan:
-    name: 'Partner ${{ matrix.partner }}@${{ matrix.environment }}'
+    name: 'Plan ${{ matrix.partner }}@${{ matrix.environment }}'
     needs: generate
     runs-on: ubuntu-latest
     strategy:
