@@ -9,8 +9,8 @@
 - partner: wiztec
   environment: qa
   account: nonprod
-  role: WiztecNonprodAdmin
+  role: arn:aws:iam::421348681356:role/DemoAdmin
 - partner: wiztec
   environment: live
   account: prod
-  role: WiztecProdAdmin
+  role: arn:aws:iam::111917077863:role/DemoAdmin
