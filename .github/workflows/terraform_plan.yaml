@@ -16,7 +16,7 @@ on:
         required: false
     outputs:
       result:
-        value: ${{ jobs.results.outputs.report }}
+        value: ${{ jobs.plan.outputs.report }}
 
 jobs:
   plan:
