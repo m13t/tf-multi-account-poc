@@ -14,16 +14,11 @@ on:
         required: false
       aws-secret-access-key:
         required: false
-    outputs:
-      result:
-        value: ${{ jobs.results.outputs.report }}
 
 jobs:
   plan:
     name: '${{ inputs.environment }}'
     runs-on: ubuntu-latest
-    outputs:
-      report: ${{ steps.report.outputs.report }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -46,20 +41,7 @@ jobs:
           aws-access-key-id: ${{ secrets.aws-access-key-id }}
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           role-to-assume: ${{ steps.settings.outputs.role }}
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.2
-        with:
-          terraform_wrapper: false
-      - name: Terraform Init
-        run: terraform init
-        env:
-          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
       - name: Terraform Plan
-        run: terraform plan -input=false
+        uses: dflook/terraform-plan@v1
         env:
-          TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
-      - id: report
-        name: Report
-        run: |
-          msg="${{ inputs.partner}} ${{ inputs.environment }}"
-          echo "report=${msg}" >> $GITHUB_OUTPUT
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

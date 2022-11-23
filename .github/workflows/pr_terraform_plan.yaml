@@ -33,16 +33,6 @@ jobs:
     with:
       partner: ${{ matrix.partner }}
       environment: ${{ matrix.environment }}
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  results:
-    name: Results
-    needs:
-      - plan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug
-        run: |
-          echo '${{ toJSON(needs) }}'
+    secrets: inherit
+      # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
