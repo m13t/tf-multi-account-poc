@@ -52,7 +52,8 @@ jobs:
       - name: Debug Output
         run: |
           echo '${{ toJSON(steps.plan.outputs) }}'
-      - uses: actions/github-script@v6
+      - if: ${{ steps.plan.outputs.changes == 'true' }}
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.addLabels({
