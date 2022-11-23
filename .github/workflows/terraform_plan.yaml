@@ -14,6 +14,9 @@ on:
         required: false
       aws-secret-access-key:
         required: false
+    outputs:
+      result:
+        value: ${{ jobs.results.outputs.report }}
 
 jobs:
   plan:
@@ -58,7 +61,10 @@ jobs:
     name: 'Results ${{ inputs.environment }}'
     needs: plan
     runs-on: ubuntu-latest
+    outputs:
+      report: ${{ steps.report.outputs.report }}
     steps:
-      - name: Report
+      - id: report
+        name: Report
         run: |
-          echo "Hello, World!"
+          echo "report=Hello, World!" >> $GITHUB_OUTPUT

@@ -50,4 +50,4 @@ jobs:
     steps:
       - name: Debug
         run: |
-          env
+          echo ${{ toJSON(needs.plan.outputs.result) }}
