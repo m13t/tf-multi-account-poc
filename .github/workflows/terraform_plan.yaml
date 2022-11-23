@@ -16,14 +16,14 @@ on:
         required: false
     outputs:
       result:
-        value: ${{ jobs.plan.outputs.* }}
+        value: ${{ jobs.plan.outputs.report }}
 
 jobs:
   plan:
     name: '${{ inputs.environment }}'
     runs-on: ubuntu-latest
     outputs:
-      report: ${{ steps.report.outputs.* }}
+      report: ${{ steps.report.outputs.report }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
