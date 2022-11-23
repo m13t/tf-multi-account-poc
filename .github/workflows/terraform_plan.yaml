@@ -53,3 +53,12 @@ jobs:
         run: terraform plan -input=false
         env:
           TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
+
+  results:
+    name: 'Results ${{ inputs.environment }}'
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report
+        run: |
+          echo "Hello, World!"
