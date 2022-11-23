@@ -67,4 +67,5 @@ jobs:
       - id: report
         name: Report
         run: |
-          echo "report=Hello, World!" >> $GITHUB_OUTPUT
+          msg="${{ inputs.partner}} ${{ inputs.environment }}"
+          echo "report=${msg}" >> $GITHUB_OUTPUT
