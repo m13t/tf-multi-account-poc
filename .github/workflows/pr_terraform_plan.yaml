@@ -44,4 +44,4 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo 'Labels: ${{ toJSON(github.event.pull_request.labels) }}'
+          echo 'Labels: ${{ toJSON(github.event.pull_request.labels).*.name }}'
