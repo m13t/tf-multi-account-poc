@@ -16,7 +16,7 @@ on:
         required: false
     outputs:
       result:
-        value: ${{ jobs.results.outputs.report }}
+        value: ${{ jobs.plan.outputs.report }}
 
 jobs:
   plan:
@@ -56,14 +56,6 @@ jobs:
         run: terraform plan -input=false
         env:
           TF_WORKSPACE: ${{ steps.settings.outputs.environment }}
-
-  results:
-    name: 'Results ${{ inputs.environment }}'
-    needs: plan
-    runs-on: ubuntu-latest
-    outputs:
-      report: ${{ steps.report.outputs.report }}
-    steps:
       - id: report
         name: Report
         run: |
