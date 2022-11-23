@@ -9,9 +9,6 @@ module "account" {
   // placeholder which will be extracted and added as a
   // tag
   local_config_subpath = "{partner}"
-
-  // Track git repo and add tags
-  track_git = true
 }
 
 // Output the account modules outputs
