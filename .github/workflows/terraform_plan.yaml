@@ -14,8 +14,6 @@ on:
         required: false
       AWS_SECRET_ACCESS_KEY:
         required: false
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   plan:
