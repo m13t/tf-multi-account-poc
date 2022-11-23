@@ -39,7 +39,13 @@ jobs:
 
   results:
     name: Results
-    needs: plan
+    needs:
+      - generate
+      - plan
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.generate.outputs.matrix) }}
     runs-on: ubuntu-latest
     steps:
       - name: Debug
