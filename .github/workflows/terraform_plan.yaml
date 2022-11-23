@@ -16,14 +16,14 @@ on:
         required: false
     outputs:
       result:
-        value: ${{ jobs.plan.outputs.report }}
+        value: ${{ jobs.plan.outputs.* }}
 
 jobs:
   plan:
     name: '${{ inputs.environment }}'
     runs-on: ubuntu-latest
     outputs:
-      report: ${{ steps.report.outputs.report }}
+      report: ${{ steps.report.outputs.* }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -61,5 +61,5 @@ jobs:
       - id: report
         name: Report
         run: |
-          msg="${{ inputs.partner}} ${{ inputs.environment }}"
-          echo "report=${msg}" >> $GITHUB_OUTPUT
+          msg="${{ inputs.partner}}=${{ inputs.environment }}"
+          echo "${msg}" >> $GITHUB_OUTPUT
