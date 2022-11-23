@@ -10,9 +10,3 @@ module "account" {
   // tag
   local_config_subpath = "{partner}"
 }
-
-// Output the account modules outputs
-// to aid in any debugging
-output "x_debug_account" {
-  value = module.account
-}
