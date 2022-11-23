@@ -23,7 +23,7 @@ jobs:
     name: '${{ inputs.environment }}'
     runs-on: ubuntu-latest
     outputs:
-      report: ${{ steps.report.outputs.report }}
+      report: ${{ toJSON(steps.report.outputs.*) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
