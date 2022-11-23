@@ -45,4 +45,4 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo ${{ toJSON(needs.plan.outputs.result) }}
+          echo ${{ toJSON(needs.plan.outputs.*) }}
