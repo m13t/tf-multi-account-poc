@@ -1,0 +1,60 @@
+name: Terraform Apply
+
+on:
+  workflow_call:
+    inputs:
+      partner:
+        type: string
+        required: true
+      environment:
+        type: string
+        required: true
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: false
+      AWS_SECRET_ACCESS_KEY:
+        required: false
+
+jobs:
+  plan:
+    name: '${{ inputs.environment }}'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: settings
+        name: Get partner settings
+        uses: ./.github/actions/matrix
+        with:
+          partner: ${{ inputs.partner }}
+          environment: ${{ inputs.environment }}
+      - name: Debug
+        run: |
+          echo "Partner: ${{ steps.settings.outputs.partner }}"
+          echo "Account: ${{ steps.settings.outputs.account }}"
+          echo "Environment: ${{ steps.settings.outputs.environment }}"
+          echo "Role: ${{ steps.settings.outputs.role }}"
+      - name: Assume IAM Role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: eu-west-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ steps.settings.outputs.role }}
+      - name: Ensure Workspace
+        uses: dflook/terraform-new-workspace@v1
+        with:
+          workspace: ${{ steps.settings.outputs.environment }}
+          backend_config: 'key=${{ inputs.partner }}'
+      - id: apply
+        name: Terraform Apply
+        uses: dflook/terraform-apply@v1
+        with:
+          label: '${{ inputs.partner }} ${{ inputs.environment }}'
+          workspace: ${{ steps.settings.outputs.environment }}
+          backend_config: 'key=${{ inputs.partner }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Debug Output
+        run: |
+          echo '${{ toJSON(steps.apply.outputs) }}'

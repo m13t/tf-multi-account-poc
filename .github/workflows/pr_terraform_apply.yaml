@@ -24,14 +24,17 @@ jobs:
           echo "matrix=$outputs" >> $GITHUB_OUTPUT
 
   apply:
-    name: Apply
+    name: '${{ matrix.partner }}'
     needs: generate
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.generate.outputs.matrix) }}
-    steps:
-      - name: Test
-        run: |
-          echo 'Running for label "${{ matrix.partner }}@${{ matrix.environment }}"'
+    uses: ./.github/workflows/terraform_apply.yaml
+    with:
+      partner: ${{ matrix.partner }}
+      environment: ${{ matrix.environment }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
