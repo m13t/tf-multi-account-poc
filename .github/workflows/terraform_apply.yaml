@@ -16,8 +16,9 @@ on:
         required: false
 
 jobs:
-  plan:
+  apply:
     name: '${{ inputs.environment }}'
+    environment: '${{ inputs.partner }}/${{ inputs.environment }}'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
