@@ -12,4 +12,9 @@ module "account" {
 
   // Track the git org and repo
   track_git = true
+
+  // Add custom tags to all resources
+  tags = {
+    Generation = 1
+  }
 }
