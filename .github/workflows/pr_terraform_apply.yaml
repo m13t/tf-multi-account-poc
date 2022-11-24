@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ needs.generate.outputs.matrix }}
+        include: ${{ fromJSON(needs.generate.outputs.matrix) }}
     steps:
       - name: Test
         run: |
