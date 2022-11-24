@@ -15,9 +15,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.2
-        with:
-          terraform_wrapper: false
-      - name: Terraform Format
-        run: terraform fmt -check -diff
+      - name: Format
+        uses: dflook/terraform-fmt-check@v1
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: terraform validate
+        uses: dflook/terraform-validate@v1
