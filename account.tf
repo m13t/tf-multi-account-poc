@@ -15,6 +15,6 @@ module "account" {
 
   // Add custom tags to all resources
   tags = {
-    Generate = 1
+    Generation = 1
   }
 }
