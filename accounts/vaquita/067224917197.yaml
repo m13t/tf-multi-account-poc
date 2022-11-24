@@ -5,6 +5,9 @@ account:
   cidr_blocks:
     - 10.1.0.0/16
 
+naming:
+  tag_name_prefix_template: '{partners}{sep}{account}{sep}{environment}'
+
 environments:
   live:
     cidr_blocks:
