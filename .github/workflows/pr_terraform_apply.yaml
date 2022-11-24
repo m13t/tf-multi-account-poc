@@ -20,6 +20,6 @@ jobs:
     steps:
       - name: Test
         run: |
-          echo 'Context: ${{ toJSON(github.events.pull_request) }}'
+          echo 'Context: ${{ toJSON(github) }}'
           echo 'Labels: ${{ toJSON(github.events.pull_request.labels.*.name) }}'
           # echo 'Running for label "${{ matrix.label }}"'
