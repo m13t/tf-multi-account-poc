@@ -11,12 +11,12 @@ defaults:
 
 jobs:
   plan:
-    name: '${{ matrix.partner }}'
+    name: Plan
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        label: ${{ github.events.pull_request.labels.*.name }}
+        label: ${{ fromJSON(github.events.pull_request.labels.*.name) }}
     steps:
       - name: Debug
         run: |
