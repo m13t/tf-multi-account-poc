@@ -14,9 +14,15 @@ resource "aws_vpc" "vpc" {
   // Address range for VPC
   cidr_block = local.vpc_primary_cidr
 
-  // We love DNS
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+  // Enable DNS supprt per partner
+  enable_dns_support = lookup({
+    wiztec = false
+  }, module.account.groups.partner, true)
+
+  // Enable DNS hostnames per partner
+  enable_dns_hostnames = lookup({
+    wiztec = false
+  }, module.account.groups.partner, true)
 
   // Inject account tags
   tags = merge(module.account.tags, {
