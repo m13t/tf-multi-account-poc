@@ -10,14 +10,28 @@ defaults:
     shell: bash
 
 jobs:
+  generate:
+    name: Generate
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        name: Matrix
+        run: |
+          json='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+          outputs=$("${json}" | jq '[ .[] | select(startswith("deploy/")) | capture("(?<partner>[a-z]+)/(?<environment>[a-z]+)") ]')
+          echo "matrix=$outputs" >> $GITHUB_OUTPUT
+
   apply:
     name: Apply
+    needs: generate
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        label: ${{ github.event.pull_request.labels.*.name }}
+        include: ${{ needs.generate.outputs.matrix }}
     steps:
       - name: Test
         run: |
-          echo 'Running for label "${{ matrix.label }}"'
+          echo 'Running for label "${{ matrix.partner }}@${{ matrix.environment }}"'
