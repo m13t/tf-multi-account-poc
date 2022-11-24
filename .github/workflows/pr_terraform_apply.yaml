@@ -13,13 +13,11 @@ jobs:
   apply:
     name: Apply
     runs-on: ubuntu-latest
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     label: ${{ github.events.pull_request.labels.*.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        label: ${{ github.event.pull_request.labels.*.name }}
     steps:
       - name: Test
         run: |
-          echo 'Context: ${{ toJSON(github.event.pull_request) }}'
-          echo 'Labels: ${{ toJSON(github.event.pull_request.labels.*.name) }}'
-          # echo 'Running for label "${{ matrix.label }}"'
+          echo 'Running for label "${{ matrix.label }}"'
