@@ -2,8 +2,6 @@ name: Terraform Plan All
 
 on:
   pull_request:
-    types:
-      - closed
     branches:
       - main
 
@@ -13,7 +11,6 @@ defaults:
 
 jobs:
   generate:
-    if: github.event.pull_request.merged == true
     name: Generate
     runs-on: ubuntu-latest
     outputs:
