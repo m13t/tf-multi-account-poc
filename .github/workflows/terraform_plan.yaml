@@ -79,4 +79,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: 'deploy/${{ inputs.partner }}/${{ inputs.environment }}'
+            }).catch((error) => {
+              console.log('error removing label', error)
             })
