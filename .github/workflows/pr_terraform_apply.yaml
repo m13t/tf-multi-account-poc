@@ -1,0 +1,23 @@
+name: Terraform Apply All
+
+on:
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  plan:
+    name: '${{ matrix.partner }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        label: ${{ github.events.pull_request.labels.*.name }}
+    steps:
+      - name: Debug
+        run: |
+          echo 'Running for label ${{ matrix.label }}'
