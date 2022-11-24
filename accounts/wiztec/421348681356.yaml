@@ -6,7 +6,7 @@ account:
     - 10.2.0.0/16
 
 naming:
-  tag_name_prefix_template: '{partners}{sep}{account}{sep}{environment}'
+  tag_name_prefix_template: '{partner}{sep}{account}{sep}{environment}'
 
 environments:
   qa:
