@@ -20,5 +20,5 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo 'Labels: ${{ github.events.pull_request.labels.*.name }}'
+          echo 'Labels: ${{ toJSON(github.events.pull_request.labels.*.name) }}'
           # echo 'Running for label "${{ matrix.label }}"'
