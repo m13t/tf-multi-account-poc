@@ -1,7 +1,9 @@
-name: Terraform Plan All
+name: Terraform Apply All
 
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - main
 
@@ -11,25 +13,27 @@ defaults:
 
 jobs:
   generate:
+    if: github.event.pull_request.merged == true
     name: Generate
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
       - id: matrix
         name: Matrix
-        uses: ./.github/actions/matrix
+        run: |
+          json='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+          outputs=$(echo "${json}" | jq -c '[ .[] | select(startswith("deploy/")) | capture("deploy/(?<partner>[a-z]+)/(?<environment>[a-z]+)") ]')
+          echo "matrix=$outputs" >> $GITHUB_OUTPUT
 
-  plan:
+  apply:
     name: '${{ matrix.partner }}'
     needs: generate
     strategy:
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.generate.outputs.matrix) }}
-    uses: ./.github/workflows/terraform_plan.yaml
+    uses: ./.github/workflows/terraform_apply.yaml
     with:
       partner: ${{ matrix.partner }}
       environment: ${{ matrix.environment }}

@@ -1,6 +1,6 @@
 module "account" {
   source  = "terraform-framework/account/aws"
-  version = "0.3.0-rc.1"
+  version = "0.3.0-rc.2"
 
   // Config files are located in the accounts directory
   local_config_path = "accounts"
@@ -10,12 +10,6 @@ module "account" {
   // tag
   local_config_subpath = "{partner}"
 
-  // Track git repo and add tags
+  // Track the git org and repo
   track_git = true
-}
-
-// Output the account modules outputs
-// to aid in any debugging
-output "x_debug_account" {
-  value = module.account
 }
