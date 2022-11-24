@@ -29,6 +29,9 @@ jobs:
 
   tfsec:
     name: Security Check
+    needs:
+      - format
+      - validate
     runs-on: ubuntu-latest
     permissions:
       contents: read
