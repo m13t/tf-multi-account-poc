@@ -20,4 +20,4 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo 'Running for label ${{ matrix.label }}'
+          echo 'Running for label "${{ matrix.label }}"'
