@@ -26,3 +26,7 @@ locals {
     module.account.env.name,
   )
 }
+
+output "debug" {
+  value = module.account
+}
