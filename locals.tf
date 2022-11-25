@@ -7,7 +7,7 @@ locals {
 
     // Vaquita
     vaquita-qa   = true
-    vaquita-live = false
+    vaquita-live = true
   }
 
   // Per partner environment dns hostnames
