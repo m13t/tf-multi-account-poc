@@ -2714,8 +2714,8 @@ module.exports.run = async () => {
 		const data = fs.readFileSync(__nccwpck_require__.ab + "mappings.json", 'utf-8')
 		const mappings = JSON.parse(data)
 
-		if (partnerInput !== null && environmentInput !== null) {
-			core.debug('Generating Matrix')
+		if (partnerInput != '' && environmentInput != '') {
+			core.debug('Generating Partner Config')
 
 			const out = mappings.filter(({ partner, environment }) => {
 				return (partner == partnerInput) && (environment == environmentInput)
@@ -2732,7 +2732,7 @@ module.exports.run = async () => {
 			core.setOutput('account', account)
 			core.setOutput('role', role)
 		} else {
-			core.debug('Generating Partner Config')
+			core.debug('Generating Matrix')
 
 			const out = mappings.map(({ partner, environment }) => {
 				return {

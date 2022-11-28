@@ -83,7 +83,7 @@ describe('run', () => {
 		}]
 
 		// Mock the inputs
-		core.getInput = jest.fn(() => null)
+		core.getInput = jest.fn(() => '')
 
 		// Mock the outputs
 		core.setOutput = jest.fn()
