@@ -15,10 +15,10 @@ resource "aws_vpc" "vpc" {
   cidr_block = local.vpc_primary_cidr
 
   // Enable DNS supprt per partner
-  enable_dns_support = lookup(local.enable_dns_support, local.partner)
+  enable_dns_support = local.config.enable_dns_support
 
   // Enable DNS hostnames per partner
-  enable_dns_hostnames = lookup(local.enable_dns_hostnames, local.partner)
+  enable_dns_hostnames = local.config.enable_dns_hostnames
 
   // Inject account tags
   tags = merge(module.account.tags, {
