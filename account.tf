@@ -18,11 +18,3 @@ module "account" {
     Generation = 2
   }
 }
-
-locals {
-  partner = format(
-    "%s-%s",
-    module.account.groups.partner,
-    module.account.env.name,
-  )
-}

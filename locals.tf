@@ -1,23 +1,15 @@
 locals {
-  // Per partner environment dns support
-  enable_dns_support = {
-    // Wiztec
-    wiztec-qa   = true
-    wiztec-live = false
+  // Computed property for using in lookups
+  partner = format(
+    "%s-%s",
+    module.account.groups.partner,
+    module.account.env.name,
+  )
 
-    // Vaquita
-    vaquita-qa   = true
-    vaquita-live = true
-  }
-
-  // Per partner environment dns hostnames
-  enable_dns_hostnames = {
-    // Wiztec
-    wiztec-qa   = true
-    wiztec-live = false
-
-    // Vaquita
-    vaquita-qa   = true
-    vaquita-live = false
-  }
+  // Load values for current partner and environment
+  config = yamldecode(file(format(
+    "%s/config/%s.yaml",
+    path.root,
+    local.partner,
+  )))
 }
