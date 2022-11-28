@@ -45,14 +45,14 @@ jobs:
         uses: dflook/terraform-new-workspace@v1
         with:
           workspace: ${{ steps.settings.outputs.environment }}
-          backend_config: 'key=${{ inputs.partner }}'
+          backend_config: 'key=${{ github.repository }}/${{ inputs.partner }}'
       - id: plan
         name: Terraform Plan
         uses: dflook/terraform-plan@v1
         with:
           label: '${{ inputs.partner }} ${{ inputs.environment }}'
           workspace: ${{ steps.settings.outputs.environment }}
-          backend_config: 'key=${{ inputs.partner }}'
+          backend_config: 'key=${{ github.repository }}/${{ inputs.partner }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Debug Output
