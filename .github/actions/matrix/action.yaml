@@ -12,38 +12,15 @@ inputs:
 outputs:
   partner:
     description: Partner identifier
-    value: ${{ steps.single.outputs.partner }}
   environment:
     description: Environment identifier
-    value: ${{ steps.single.outputs.environment }}
   account:
     description: Account identifier
-    value: ${{ steps.single.outputs.account }}
   role:
     description: Role identifier
-    value: ${{ steps.single.outputs.role }}
   matrix:
     description: Matrix of partners and environments
-    value: ${{ steps.matrix.outputs.matrix }}
 
 runs:
-  using: "composite"
-  steps:
-    - id: matrix
-      name: Generate matrix
-      shell: bash
-      run: |
-        mapping=${{ github.action_path }}/mappings.yaml
-        outputs=$(yq eval -o=json -I=0 '.[] |= pick(["partner", "environment"])' $mapping)
-        echo "matrix=$outputs" >> $GITHUB_OUTPUT
-
-    - if: ${{ inputs.partner != '' && inputs.environment != '' }}
-      id: single
-      name: Generate single
-      shell: bash
-      run: |
-        partner=${{ inputs.partner }}
-        environment=${{ inputs.environment }}
-        mapping=${{ github.action_path }}/mappings.yaml
-        outputs=$(yq eval -r '.[] | select(.partner == "'$partner'" and .environment == "'$environment'").[] | key + "="+ .' $mapping)
-        echo "$outputs" >> $GITHUB_OUTPUT
+  using: 'node16'
+  main: 'dist/index.js'
