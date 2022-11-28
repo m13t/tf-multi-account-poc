@@ -13,6 +13,9 @@ module.exports.run = async () => {
 	const partnerInput = core.getInput('partner')
 	const environmentInput = core.getInput('environment')
 
+	core.debug(`Partner Input: ${partnerInput}`)
+	core.debug(`Environment Input: ${environmentInput}`)
+
 	try {
 		// Read in mappings file
 		const data = fs.readFileSync(mapFile, 'utf-8')
