@@ -21,7 +21,7 @@ module.exports.run = async () => {
 		const data = fs.readFileSync(mapFile, 'utf-8')
 		const mappings = JSON.parse(data)
 
-		if (partnerInput !== '' && environmentInput !== '') {
+		if (partnerInput !== null && environmentInput !== null) {
 			core.debug('Generating Matrix')
 
 			const out = mappings.filter(({ partner, environment }) => {

@@ -3,7 +3,6 @@ const fs = require('fs')
 
 // NPM modules (built-in)
 const core = require('@actions/core')
-//const github = require('@actions/github')
 
 // Mock fs module
 jest.mock('fs', () => ({
@@ -14,7 +13,6 @@ jest.mock('fs', () => ({
 
 // Mock GitHub modules
 jest.mock('@actions/core')
-jest.mock('@actions/github')
 
 // Import run function
 const { run } = require('./run.js')
@@ -85,7 +83,7 @@ describe('run', () => {
 		}]
 
 		// Mock the inputs
-		core.getInput = jest.fn()
+		core.getInput = jest.fn(() => null)
 
 		// Mock the outputs
 		core.setOutput = jest.fn()
