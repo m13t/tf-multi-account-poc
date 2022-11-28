@@ -1,0 +1,21 @@
+[{
+	"partner": "vaquita",
+	"environment": "qa",
+	"account": "nonprod",
+	"role": "arn:aws:iam::329171477349:role/DemoAdmin"
+}, {
+	"partner": "vaquita",
+	"environment": "live",
+	"account": "prod",
+	"role": "arn:aws:iam::067224917197:role/DemoAdmin"
+}, {
+	"partner": "wiztec",
+	"environment": "qa",
+	"account": "nonprod",
+	"role": "arn:aws:iam::421348681356:role/DemoAdmin"
+}, {
+	"partner": "wiztec",
+	"environment": "live",
+	"account": "prod",
+	"role": "arn:aws:iam::111917077863:role/DemoAdmin"
+}]
