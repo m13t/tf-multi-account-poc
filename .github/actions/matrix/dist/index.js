@@ -9535,6 +9535,13 @@ module.exports.run = async () => {
 		const data = fs.readFileSync(__nccwpck_require__.ab + "mappings.json", 'utf-8')
 		const mappings = JSON.parse(data)
 
+		// If partner and environment is configured, lookup config
+		if (partner !== '' && environment !== '') {
+			core.debug('Partner configuration specified')
+
+			return generateConfig(mappings, partner, environment)
+		}
+
 		// If pull request is closed, generate matrix from deployment labels
 		if (context.payload.action == 'closed' && context.payload.pull_request) {
 			core.debug('Found Pull Request Context')
@@ -9544,13 +9551,6 @@ module.exports.run = async () => {
 			})
 
 			return generateDeployMatrix(mappings, labels)
-		}
-
-		// If partner and environment is configured, lookup config
-		if (partner !== '' && environment !== '') {
-			core.debug('Partner configuration specified')
-
-			return generateConfig(mappings, partner, environment)
 		}
 
 		core.debug('No input configuration found')
