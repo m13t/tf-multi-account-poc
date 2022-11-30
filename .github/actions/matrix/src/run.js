@@ -22,35 +22,43 @@ module.exports.run = async () => {
 		const mappings = JSON.parse(data)
 
 		if (partnerInput != '' && environmentInput != '') {
-			core.debug('Generating Partner Config')
-
-			const out = mappings.filter(({ partner, environment }) => {
-				return (partner == partnerInput) && (environment == environmentInput)
-			})
-
-			if (out.length !== 1) {
-				throw new Error("only expected single output")
-			}
-
-			const { partner, account, environment, role } = out[0]
-
-			core.setOutput('partner', partner)
-			core.setOutput('environment', environment)
-			core.setOutput('account', account)
-			core.setOutput('role', role)
+			generateConfig(mappings, partnerInput, environmentInput)
 		} else {
-			core.debug('Generating Matrix')
-
-			const out = mappings.map(({ partner, environment }) => {
-				return {
-					partner,
-					environment,
-				}
-			})
-
-			core.setOutput('matrix', JSON.stringify(out))
+			generatePlanMatrix(mappings)
 		}
 	} catch (error) {
 		core.setFailed(error.message)
 	}
+}
+
+const generateConfig = (mappings, partnerInput, environmentInput) => {
+	core.debug('Generating Partner Config')
+
+	const out = mappings.filter(({ partner, environment }) => {
+		return (partner == partnerInput) && (environment == environmentInput)
+	})
+
+	if (out.length !== 1) {
+		throw new Error("only expected single output")
+	}
+
+	const { partner, region, environment, role } = out[0]
+
+	core.setOutput('partner', partner)
+	core.setOutput('environment', environment)
+	core.setOutput('region', region)
+	core.setOutput('role', role)
+}
+
+const generatePlanMatrix = (mappings) => {
+	core.debug('Generating Plan Matrix')
+
+	const out = mappings.map(({ partner, environment }) => {
+		return {
+			partner,
+			environment,
+		}
+	})
+
+	core.setOutput('matrix', JSON.stringify(out))
 }

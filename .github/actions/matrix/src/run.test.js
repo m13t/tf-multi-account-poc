@@ -29,12 +29,12 @@ describe('run', () => {
 		let mockMapping = [{
 			"partner": "vaquita",
 			"environment": "qa",
-			"account": "nonprod",
+			"region": "eu-west-2",
 			"role": "arn:aws:iam::329171477349:role/DemoAdmin"
 		}, {
 			"partner": "vaquita",
 			"environment": "live",
-			"account": "prod",
+			"region": "eu-west-2",
 			"role": "arn:aws:iam::067224917197:role/DemoAdmin"
 		}]
 
@@ -57,7 +57,7 @@ describe('run', () => {
 		expect(core.setOutput).toHaveBeenCalledTimes(4)
 		expect(core.setOutput).toHaveBeenNthCalledWith(1, 'partner', 'vaquita')
 		expect(core.setOutput).toHaveBeenNthCalledWith(2, 'environment', 'qa')
-		expect(core.setOutput).toHaveBeenNthCalledWith(3, 'account', 'nonprod')
+		expect(core.setOutput).toHaveBeenNthCalledWith(3, 'region', 'eu-west-2')
 		expect(core.setOutput).toHaveBeenNthCalledWith(4, 'role', 'arn:aws:iam::329171477349:role/DemoAdmin')
 	})
 
@@ -65,12 +65,12 @@ describe('run', () => {
 		let mockMapping = [{
 			"partner": "vaquita",
 			"environment": "qa",
-			"account": "nonprod",
+			"region": "eu-west-2",
 			"role": "arn:aws:iam::329171477349:role/DemoAdmin"
 		}, {
 			"partner": "vaquita",
 			"environment": "live",
-			"account": "prod",
+			"region": "eu-west-2",
 			"role": "arn:aws:iam::067224917197:role/DemoAdmin"
 		}]
 

@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"lint": "eslint .",
+		"test": "jest",
 		"prepare": "ncc build src/index.js"
 	},
 	"dependencies": {
