@@ -4,6 +4,7 @@ const path = require('path')
 
 // NPM modules (built-in)
 const core = require('@actions/core')
+const github = require('@actions/github')
 
 // Mapping file to load
 const mapFile = path.join(__dirname, 'mappings.json')
@@ -12,9 +13,11 @@ const mapFile = path.join(__dirname, 'mappings.json')
 module.exports.run = async () => {
 	const partnerInput = core.getInput('partner')
 	const environmentInput = core.getInput('environment')
+	const context = github.context
 
 	core.debug(`Partner Input: ${partnerInput}`)
 	core.debug(`Environment Input: ${environmentInput}`)
+	core.info(`Context: ${JSON.stringify(context)}`)
 
 	try {
 		// Read in mappings file
