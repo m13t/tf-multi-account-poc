@@ -25,6 +25,8 @@ module.exports.run = async () => {
 
 		// If pull request is closed, generate matrix from deployment labels
 		if (context.payload.action == 'closed' && context.payload.pull_request) {
+			core.debug('Found Pull Request Context')
+
 			const labels = context.payload.pull_request.labels.map((obj) => {
 				return obj.name
 			})
@@ -33,9 +35,13 @@ module.exports.run = async () => {
 		}
 
 		// If partner and environment is configured, lookup config
-		if (partner != '' && environment != '') {
+		if (partner !== '' && environment !== '') {
+			core.debug('Partner configuration specified')
+
 			return generateConfig(mappings, partner, environment)
 		}
+
+		core.debug('No input configuration found')
 
 		// If no inputs specified, generate matrix for all partners and environments
 		generatePlanMatrix(mappings)
@@ -77,6 +83,8 @@ const generatePlanMatrix = (mappings) => {
 }
 
 const generateDeployMatrix = (mappings, labels) => {
+	core.debug('Generating Deploy Matrix')
+
 	const deployLabels = labels.filter((label) => {
 		return label.startsWith('deploy/')
 	}).map((label) => {
