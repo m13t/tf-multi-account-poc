@@ -32,7 +32,7 @@ jobs:
       - name: Debug
         run: |
           echo "Partner: ${{ steps.settings.outputs.partner }}"
-          echo "Account: ${{ steps.settings.outputs.account }}"
+          echo "Region: ${{ steps.settings.outputs.region }}"
           echo "Environment: ${{ steps.settings.outputs.environment }}"
           echo "Role: ${{ steps.settings.outputs.role }}"
       - name: Assume IAM Role
@@ -56,6 +56,3 @@ jobs:
           backend_config: 'key=${{ github.repository }}/${{ inputs.partner }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Debug Output
-        run: |
-          echo '${{ toJSON(steps.apply.outputs) }}'
