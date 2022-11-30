@@ -9,7 +9,8 @@
 		"prepare": "ncc build src/index.js"
 	},
 	"dependencies": {
-		"@actions/core": "^1.10.0"
+		"@actions/core": "^1.10.0",
+		"@actions/github": "^5.1.1"
 	},
 	"devDependencies": {
 		"@vercel/ncc": "^0.34.0",

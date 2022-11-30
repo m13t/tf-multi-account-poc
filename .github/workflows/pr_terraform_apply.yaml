@@ -21,10 +21,7 @@ jobs:
     steps:
       - id: matrix
         name: Matrix
-        run: |
-          json='${{ toJSON(github.event.pull_request.labels.*.name) }}'
-          outputs=$(echo "${json}" | jq -c '[ .[] | select(startswith("deploy/")) | capture("deploy/(?<partner>[a-z]+)/(?<environment>[a-z]+)") ]')
-          echo "matrix=$outputs" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/matrix
 
   apply:
     name: '${{ matrix.partner }}'

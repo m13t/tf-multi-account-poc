@@ -4,28 +4,41 @@ const path = require('path')
 
 // NPM modules (built-in)
 const core = require('@actions/core')
+const github = require('@actions/github')
 
 // Mapping file to load
 const mapFile = path.join(__dirname, 'mappings.json')
 
 // Create our entrypoint
 module.exports.run = async () => {
-	const partnerInput = core.getInput('partner')
-	const environmentInput = core.getInput('environment')
+	const partner = core.getInput('partner')
+	const environment = core.getInput('environment')
+	const context = github.context
 
-	core.debug(`Partner Input: ${partnerInput}`)
-	core.debug(`Environment Input: ${environmentInput}`)
+	core.debug(`Partner Input: ${partner}`)
+	core.debug(`Environment Input: ${environment}`)
 
 	try {
 		// Read in mappings file
 		const data = fs.readFileSync(mapFile, 'utf-8')
 		const mappings = JSON.parse(data)
 
-		if (partnerInput != '' && environmentInput != '') {
-			generateConfig(mappings, partnerInput, environmentInput)
-		} else {
-			generatePlanMatrix(mappings)
+		// If pull request is closed, generate matrix from deployment labels
+		if (context.payload.action == 'closed' && context.payload.pull_request) {
+			const labels = context.payload.pull_request.labels.map((obj) => {
+				return obj.name
+			})
+
+			return generateDeployMatrix(mappings, labels)
 		}
+
+		// If partner and environment is configured, lookup config
+		if (partner != '' && environment != '') {
+			return generateConfig(mappings, partner, environment)
+		}
+
+		// If no inputs specified, generate matrix for all partners and environments
+		generatePlanMatrix(mappings)
 	} catch (error) {
 		core.setFailed(error.message)
 	}
@@ -61,4 +74,33 @@ const generatePlanMatrix = (mappings) => {
 	})
 
 	core.setOutput('matrix', JSON.stringify(out))
+}
+
+const generateDeployMatrix = (mappings, labels) => {
+	const deployLabels = labels.filter((label) => {
+		return label.startsWith('deploy/')
+	}).map((label) => {
+		const [ , partner, environment ] = label.split('/')
+
+		return {
+			partner,
+			environment,
+		}
+	}).filter(({ partner, environment }) => {
+		if (partner == undefined) {
+			return false
+		}
+
+		if (environment == undefined) {
+			return false
+		}
+
+		const matches = mappings.filter((mapping) => {
+			return (mapping.partner == partner) && (mapping.environment == environment)
+		})
+
+		return matches.length > 0
+	})
+
+	core.setOutput('matrix', JSON.stringify(deployLabels))
 }
