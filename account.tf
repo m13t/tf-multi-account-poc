@@ -15,6 +15,6 @@ module "account" {
 
   // Add custom tags to all resources
   tags = {
-    Generation = 5
+    Generation = 1
   }
 }
