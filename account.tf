@@ -1,6 +1,6 @@
 module "account" {
   source  = "terraform-framework/account/aws"
-  version = "0.3.0-rc.2"
+  version = "0.6.0"
 
   // Config files are located in the accounts directory
   local_config_path = "accounts"
