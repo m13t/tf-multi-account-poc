@@ -24,7 +24,7 @@ resource "aws_vpc" "vpc" {
   tags = merge(module.account.tags, {
     // Format name tag using account format
     Name    = format(module.account.tag_name.format, "VPC")
-    Version = 1
+    Version = 2
   })
 }
 
