@@ -9,6 +9,9 @@ on:
       environment:
         type: string
         required: true
+      ref:
+        type: string
+        required: true
     secrets:
       AWS_ACCESS_KEY_ID:
         required: false
@@ -21,7 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - id: settings
         name: Get partner settings
         uses: ./.github/actions/matrix
