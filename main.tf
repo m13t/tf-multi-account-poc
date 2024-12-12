@@ -34,3 +34,23 @@ resource "aws_vpc_ipv4_cidr_block_association" "additional" {
   vpc_id     = aws_vpc.vpc.id
   cidr_block = each.key
 }
+
+resource "aws_s3_bucket" "assets" {
+  bucket = format(
+    "%s-assets",
+    join("-", reverse(split(".", module.account.env.domain))),
+  )
+
+  tags = merge(module.account.tags, {
+    Name = format(module.account.tag_name.format, "ASSETS")
+  })
+}
+
+resource "aws_s3_bucket_public_access_block" "assets" {
+  bucket = aws_s3_bucket.assets.id
+
+  block_public_acls       = lookup(local.config, "block_public_acls", false)
+  block_public_policy     = lookup(local.config, "block_public_policy", false)
+  ignore_public_acls      = lookup(local.config, "ignore_public_acls", false)
+  restrict_public_buckets = lookup(local.config, "restrict_public_buckets", false)
+}
